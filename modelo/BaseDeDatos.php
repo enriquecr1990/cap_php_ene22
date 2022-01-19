@@ -1,6 +1,6 @@
 <?php
 
-include 'ConfigBD.php';
+include_once 'ConfigBD.php';
 
 /*
  * consultas
@@ -36,26 +36,13 @@ class BaseDeDatos{
         }
     }
 
-    public function obtenerRegistros($consulta){
-        $consulta = $this->mysqli->query($consulta);
+    public function queryNativa($querySQL){
+        $consulta = $this->mysqli->query($querySQL);
         $indexRegistro = 0;
         $array_registros = array();
         while ($registro = $consulta->fetch_assoc()){
             foreach ($registro as $columna => $valor){
-                $array_registros[$indexRegistro][$columna] = $valor;
-            }
-            $indexRegistro++;
-        }
-        return $array_registros;
-    }
-
-    public function getCatalogoContacto(){
-        $consulta = $this->mysqli->query("select * from catalogo_contacto");
-        $indexRegistro = 0;
-        $array_registros = array();
-        while ($registro = $consulta->fetch_assoc()){
-            foreach ($registro as $columna => $valor){
-                $array_registros[$indexRegistro][$columna] = $valor;
+                $array_registros[$indexRegistro][$columna] = utf8_encode($valor);
             }
             $indexRegistro++;
         }
