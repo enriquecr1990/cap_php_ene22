@@ -19,8 +19,12 @@ class ModeloBase extends BaseDeDatos{
 
     public function obtenerRegistros(){
         $consulta = "select * from ".$this->tabla;
-        $registros = $this->queryNativa($consulta);
+        $registros = $this->consultaRegistros($consulta);
         return $registros;
+    }
+
+    public function actualizar($valoresUpdate,$condicionales){
+        return $this->actualizarRegistro($this->tabla,$valoresUpdate,$condicionales);
     }
 
 }

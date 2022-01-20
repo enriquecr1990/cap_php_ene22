@@ -36,6 +36,38 @@ class CatalogosController {
         }
     }
 
+    public function actualizarCatalogoContacto($datosFormulario){
+        try{
+            $calogoContactoModel = new CatalogoContactoModel();
+            $guardar = $calogoContactoModel->actualizar($datosFormulario,array('id' => $datosFormulario['id']));
+            if($guardar){
+                $respuesta = array(
+                    'success' => true,
+                    'msg' => array(
+                        'Se actualizo el catalogo contacto correctamente'
+                    )
+                );
+            }else{
+                $respuesta = array(
+                    'success' => false,
+                    'msg' => array(
+                        'No fue posible actualizar el catalogo contacto correctamente'
+                    )
+                );
+            }
+            return $respuesta;
+        }catch (Exception $ex){
+            $respuesta = array(
+                'success' => false,
+                'msg' => array(
+                    utf8_encode('Ocurrio un error en el servidor, intentar más tarde'),
+                    $ex->getMessage()
+                )
+            );
+            return $respuesta;
+        }
+    }
+
     public function catalogoEstado(){
         try{
             $estadoModel = new EstadoModel();

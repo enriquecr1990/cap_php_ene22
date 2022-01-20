@@ -15,7 +15,7 @@ class ContactoModel extends ModeloBase{
     public function obtenerRegistros()
     {
         $consulta = "select * from contacto where empleado_id = ".$this->idEmpleado;
-        $registros = $this->queryNativa($consulta);
+        $registros = $this->consultaRegistros($consulta);
         return $registros;
     }
 

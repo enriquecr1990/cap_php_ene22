@@ -36,7 +36,8 @@ class BaseDeDatos{
         }
     }
 
-    public function queryNativa($querySQL){
+    public function consultaRegistros($querySQL)
+    { //consuta_registros
         $consulta = $this->mysqli->query($querySQL);
         $indexRegistro = 0;
         $array_registros = array();
@@ -47,6 +48,95 @@ class BaseDeDatos{
             $indexRegistro++;
         }
         return $array_registros;
+    }
+
+    /**
+     * @param $tabla string nombre de la tabla a actualizar
+     * @param $valoresUpdate recibir un arreglo de datos que contenga el nombre de la columna y su valor
+     * @param $condicionales recibir un arreglo de datos que contenga el nombre de la columna y su valor
+     * update $tabla set $valores where $condicionales
+     */
+    public function actualizarRegistro($tabla,$valoresUpdate,$condicionales){ //funcion1,
+        $sqlSets = $this->obtenerValoresUpdate($valoresUpdate);
+        $sqlWhere = $this->obtenerCondicionalesAnd($condicionales);
+        $consultaUpdate = "UPDATE $tabla $sqlSets $sqlWhere";
+        //var_dump($consultaUpdate);exit;
+        return $this->queryNativa($consultaUpdate);
+    }
+
+    /**
+     * @param $tabla
+     * @param $valoresInsert
+     * INSERT INTO tabla(columna1, columna2, ... ,columnaN) VALUES (valor1,valor2,...,valorN)
+     */
+    public function insertarRegistro($tabla,$valoresInsert){ //funcion2
+
+    }
+
+    /**
+     * @param $tabla
+     * @param $condionales
+     * DELETE FROM $tabla WHERE condicionales
+     */
+    public function eliminarRegistro($tabla,$condionales){
+
+    }
+
+    /**
+     * investigar
+     */
+    public function ultimoIdInsertado(){
+
+    }
+
+    public function queryNativa($querySQL){
+        try{
+            $queryExecutada = $this->mysqli->query($querySQL);
+            return true;
+        }catch (Exception $ex){
+            return false;
+        }
+    }
+
+    //funcion privada para formatear los datos que se van actualizar en una tabla "SET"
+    // array ('clave' => 'ecorona','nombres' => 'Luis Enrique') ----->
+    // array(
+    //    nombre_columna => valor,
+    //    nombre_columna2 => valor,
+    //    nombre_columna3 => valor,
+    //    nombre_columna4 => valor,
+    //    nombre_columna5 => valor
+    //)
+    // return "clave = 'ecorona', nombres = 'Luis Enrique'"
+    private function obtenerValoresUpdate($valoresUpdate){
+        $sets = " SET";
+        $index = 1; $max = sizeof($valoresUpdate);
+        foreach ($valoresUpdate as $columna => $valor){
+            $valor = utf8_decode($valor);
+            if($index < $max){
+                $sets .= " $columna = '$valor',";
+            }else{
+                $sets .= " $columna = '$valor'";
+            }
+            $index++;
+        }
+        return $sets;
+    }
+
+    private function obtenerCondicionalesAnd($condicionales){
+        $condiciones = ' where 1=1';
+        $index = 1; $max = sizeof($condicionales);
+        foreach ($condicionales as $columna => $valor){
+            if($index <= $max){
+                if(strpos($valor,'%') !== false){
+                    $condiciones .= " AND $columna LIKE '$valor'";
+                }else{
+                    $condiciones .= " AND $columna = '$valor'";
+                }
+            }
+            $index++;
+        }
+        return $condiciones;
     }
 
 }
