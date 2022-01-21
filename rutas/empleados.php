@@ -1,5 +1,7 @@
 <?php
 
+//header('Content-Type: application/json; charset=utf-8');
+
 include_once "../controlador/CatalogosController.php";
 include_once "../controlador/EmpleadosController.php";
 
@@ -45,9 +47,13 @@ if(isset($_GET['peticion']) && $_GET['peticion'] != '' && isset($_GET['funcion']
                     $resultado = $empleadoController->obtenerEmpleados();
                     echo json_encode($resultado);
                     break;
-                case 'guardar':
+                case 'nuevo':
                     //realizar las funciones correspondientes de guardar un empleados
                     //considerar validaciones de campos
+                    //http_response_code(201);
+                    $resultado = $empleadoController->guardarEmpleado($data);
+                    //$resultado['success'] ? http_response_code(201) : http_response_code(400);
+                    echo json_encode($resultado);
                     break;
                 case 'actualizar':
                     //realizar las funcioens para actualizar un empleados
@@ -59,6 +65,7 @@ if(isset($_GET['peticion']) && $_GET['peticion'] != '' && isset($_GET['funcion']
                     //realizar las funciones para eliminar un empleado
                     break;
                 default:
+                    http_response_code(404);
                     echo json_encode(array(
                         'success' => false,
                         'msg' => array(
@@ -70,6 +77,7 @@ if(isset($_GET['peticion']) && $_GET['peticion'] != '' && isset($_GET['funcion']
             break;
 
         default:
+            http_response_code(404);
             echo json_encode(array(
                 'success' => false,
                 'msg' => array(
@@ -79,6 +87,7 @@ if(isset($_GET['peticion']) && $_GET['peticion'] != '' && isset($_GET['funcion']
             break;
     }
 }else{
+    http_response_code(404);
     echo json_encode(array(
         'success' => false,
         'msg' => array(

@@ -70,7 +70,11 @@ class BaseDeDatos{
      * INSERT INTO tabla(columna1, columna2, ... ,columnaN) VALUES (valor1,valor2,...,valorN)
      */
     public function insertarRegistro($tabla,$valoresInsert){ //funcion2
-
+        $valoresColumnas = $this->insertarValoresColumnas($valoresInsert);
+        $queryInsert = "INSERT INTO ".$tabla." (".$valoresColumnas['columnas'].") VALUES (".$valoresColumnas['valores'].")";
+        $this->queryNativa($queryInsert);
+        //retornar el id insertado
+        return $this->mysqli->insert_id;
     }
 
     /**
@@ -137,6 +141,25 @@ class BaseDeDatos{
             $index++;
         }
         return $condiciones;
+    }
+
+    private function insertarValoresColumnas($valoresInsert){
+        $retorno = array();
+        $nombres_columnas = "";
+        $valores_columnas = "";
+        $iteracion_campos = 1; $max_it_campos = sizeof($valoresInsert);
+        foreach ($valoresInsert as $columna => $valor){
+            $nombres_columnas .= $columna;
+            $valores_columnas .= "'".$valor."'";
+            if($iteracion_campos < $max_it_campos){
+                $nombres_columnas .= ",";
+                $valores_columnas .= ",";
+            }
+            $iteracion_campos++;
+        }
+        $retorno['columnas'] = $nombres_columnas;
+        $retorno['valores'] = $valores_columnas;
+        return $retorno;
     }
 
 }

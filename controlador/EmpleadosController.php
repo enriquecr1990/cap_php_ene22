@@ -66,6 +66,29 @@ class EmpleadosController {
                     }
                 }else{
                     //agregar nuevo empleado
+                    $empleadoModel = new EmpleadoModel();
+                    //como en el nuevo registro no necesita el id
+                    //unset($datosFormulario['id']);
+                    $datosFormulario['id'] = 0;
+                    $idNuevo = $empleadoModel->insertar($datosFormulario);
+                    if(is_numeric($idNuevo)){
+                        $respuesta = array(
+                            'success' => true,
+                            'data' => array(
+                                'id_empleado' => $idNuevo
+                            ),
+                            'msg' => array(
+                                'Se registro el empleado correctamente'
+                            )
+                        );
+                    }else{
+                        $respuesta = array(
+                            'success' => false,
+                            'msg' => array(
+                                'No fue posible agregar el empleado correctamente'
+                            )
+                        );
+                    }
                 }
             }else{
                 $respuesta['success'] = false;
