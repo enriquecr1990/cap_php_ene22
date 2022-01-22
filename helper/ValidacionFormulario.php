@@ -17,9 +17,15 @@ class ValidacionFormulario{
         }if(!isset($datosFormulario['apellido_paterno']) || $datosFormulario['apellido_paterno'] == ''){
             $validacion['status'] = false;
             $validacion['msg'][] = 'El apellido paterno del empleado es requerido';
+        }if(!isset($datosFormulario['apellido_materno']) || $datosFormulario['apellido_materno'] == ''){
+            $validacion['status'] = false;
+            $validacion['msg'][] = 'El apellido materno del empleado es requerido';
         }if(!isset($datosFormulario['direccion']) || $datosFormulario['direccion'] == ''){
             $validacion['status'] = false;
             $validacion['msg'][] = 'El campo direccion del empleado es requerido';
+        }if(!isset($datosFormulario['catalogo_estado_id']) || $datosFormulario['catalogo_estado_id'] == ''){
+            $validacion['status'] = false;
+            $validacion['msg'][] = 'El campo estado del empleado es requerido';
         }
         return $validacion;
     }

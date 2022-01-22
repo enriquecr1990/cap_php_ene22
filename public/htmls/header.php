@@ -13,3 +13,5 @@
     <div class="alert alert-primary text-center" role="alert">
         Sistema de empleados y sus datos
     </div>
+
+    <div class="alert alert-warning" id="divMensajesSistema" style="display: none"></div>

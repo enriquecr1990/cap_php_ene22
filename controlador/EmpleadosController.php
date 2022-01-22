@@ -18,10 +18,19 @@ class EmpleadosController {
         try{
             $empleadoModel = new EmpleadoModel();
             $registrosEmpleado = $empleadoModel->obtenerRegistros();
+            //funcionalidad de obtener los datos de contacto por cada empleado
+            $empleadoCompleto = array();
+            foreach ($registrosEmpleado as $index => $empleado){
+                $contactoModel = new ContactoModel($empleado['id']);
+                $registroContactoEmpleado = $contactoModel->obtenerRegistros();
+                $empleado['datos_contacto'] = $registroContactoEmpleado;
+                $empleadoCompleto[$index] = $empleado;
+            }
+            //var_dump($empleadoCompleto);exit;
             $respuesta = array(
                 'success' => true,
                 'data' => array(
-                    'empleados' => $registrosEmpleado
+                    'empleados' => $empleadoCompleto
                 )
             );
             return $respuesta;

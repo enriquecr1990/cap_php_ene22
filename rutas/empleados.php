@@ -47,18 +47,12 @@ if(isset($_GET['peticion']) && $_GET['peticion'] != '' && isset($_GET['funcion']
                     $resultado = $empleadoController->obtenerEmpleados();
                     echo json_encode($resultado);
                     break;
-                case 'nuevo':
+                case 'nuevoActualizar':
                     //realizar las funciones correspondientes de guardar un empleados
                     //considerar validaciones de campos
                     //http_response_code(201);
                     $resultado = $empleadoController->guardarEmpleado($data);
                     //$resultado['success'] ? http_response_code(201) : http_response_code(400);
-                    echo json_encode($resultado);
-                    break;
-                case 'actualizar':
-                    //realizar las funcioens para actualizar un empleados
-                    //tomar en cuenta sus validaciones
-                    $resultado = $empleadoController->guardarEmpleado($data);
                     echo json_encode($resultado);
                     break;
                 case 'eliminar':

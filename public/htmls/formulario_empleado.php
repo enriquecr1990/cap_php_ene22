@@ -4,11 +4,12 @@
     </div>
     <div class="col-6">
         <div class="card">
-            <div class="card-header">
+            <div class="card-header" id="tituloFormEmpleado">
                 Registrar un empleado
             </div>
             <div class="card-body">
-                <form id="formEmpleado" >
+                <form id="formEmpleado" method="post">
+                    <input type="hidden" id="inputIdEmpleado" name="id" value="0">
                     <div class="mb-3">
                         <label for="inputClave" class="form-label">Clave empleado</label>
                         <input type="text" class="form-control" id="inputClave" name="clave">
@@ -30,11 +31,12 @@
                         <input type="text" class="form-control" id="inputDireccion" name="direccion">
                     </div>
                     <div class="mb-3">
-                        <label for="inputDireccion" class="form-label">Estado</label>
-                        <select id="sltInputEstado" class="form-select">
+                        <label for="sltInputEstado" class="form-label">Estado</label>
+                        <select id="sltInputEstado" class="form-select" name="catalogo_estado_id">
                             <option value="">--Seleccione--</option>
                         </select>
                     </div>
+
                     <div class="mb-3 text-center">
                         <button type="button" class="btn btn-success" id="btnGuardarEmpleado">Guardar</button>
                         <button type="button" class="btn btn-danger" id="btnCancelarEmpleado">Cancelar</button>

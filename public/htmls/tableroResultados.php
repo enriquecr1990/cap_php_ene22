@@ -10,8 +10,8 @@
         </th>
     </tr>
     </thead>
-    <tbody>
-
+    <tbody id="tbodyResultadosEmpleados">
+        <!--
         <tr>
             <td>asd123</td>
             <td>fulanito</td>
@@ -22,6 +22,6 @@
                 <button type="button" class="btn btn-danger">Eliminar</button>
             </td>
         </tr>
-
+        -->
     </tbody>
 </table>
