@@ -68,10 +68,9 @@ class EmpleadosController {
                     }else{
                         $respuesta = array(
                             'success' => false,
-                            'msg' => array(
-                                'No fue posible actualizar el empleado correctamente'
-                            )
+                            'msg' => $empleadoModel->getMsgErrors()
                         );
+                        $respuesta['msg'][] = 'No pude actualizar el empleado';
                     }
                 }else{
                     //agregar nuevo empleado
@@ -79,12 +78,12 @@ class EmpleadosController {
                     //como en el nuevo registro no necesita el id
                     //unset($datosFormulario['id']);
                     $datosFormulario['id'] = 0;
-                    $idNuevo = $empleadoModel->insertar($datosFormulario);
-                    if(is_numeric($idNuevo)){
+                    $guardo = $empleadoModel->insertar($datosFormulario);
+                    if($guardo){
                         $respuesta = array(
                             'success' => true,
                             'data' => array(
-                                'id_empleado' => $idNuevo
+                                'id_empleado' => $empleadoModel->ultimoIdInsertado()
                             ),
                             'msg' => array(
                                 'Se registro el empleado correctamente'
@@ -93,15 +92,43 @@ class EmpleadosController {
                     }else{
                         $respuesta = array(
                             'success' => false,
-                            'msg' => array(
-                                'No fue posible agregar el empleado correctamente'
-                            )
+                            'msg' => $empleadoModel->getMsgErrors(),
                         );
                     }
                 }
             }else{
                 $respuesta['success'] = false;
                 $respuesta['msg'] = $validacion['msg'];
+            }
+        }catch (Exception $ex){
+            $respuesta = array(
+                'success' => false,
+                'msg' => array(
+                    utf8_encode('Ocurrio un error en el servidor, intentar más tarde'),
+                    $ex->getMessage()
+                )
+            );
+        }
+        return $respuesta;
+    }
+
+    public function eliminarEmpleado($idEmpleado){
+        try{
+            $empleadoModel = new EmpleadoModel();
+            $eliminar = $empleadoModel->eliminar(array('id' => $idEmpleado));
+            if($eliminar){
+                $respuesta = array(
+                    'success' => true,
+                    'msg' => array(
+                        'Se eliminó el empleado correctamente'
+                    )
+                );
+            }else{
+                $respuesta = array(
+                    'success' => false,
+                    'msg' => $empleadoModel->getMsgErrors()
+                );
+                $respuesta['msg'][] = 'No pude eliminar el empleado';
             }
         }catch (Exception $ex){
             $respuesta = array(

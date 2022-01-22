@@ -57,6 +57,8 @@ if(isset($_GET['peticion']) && $_GET['peticion'] != '' && isset($_GET['funcion']
                     break;
                 case 'eliminar':
                     //realizar las funciones para eliminar un empleado
+                    $resultado = $empleadoController->eliminarEmpleado($data['id_empleado']);
+                    echo json_encode($resultado);
                     break;
                 default:
                     http_response_code(404);

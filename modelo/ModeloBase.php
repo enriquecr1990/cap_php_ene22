@@ -17,9 +17,9 @@ class ModeloBase extends BaseDeDatos{
         $this->tabla = $tabla;
     }
 
-    public function obtenerRegistros(){
-        $consulta = "select * from ".$this->tabla;
-        $registros = $this->consultaRegistros($consulta);
+    public function obtenerRegistros($condicionales = array()){
+        //$consulta = "select * from ".$this->tabla;
+        $registros = $this->consultaRegistros($this->tabla,$condicionales);
         return $registros;
     }
 
@@ -29,6 +29,10 @@ class ModeloBase extends BaseDeDatos{
 
     public function insertar($valoresInsertar){
         return $this->insertarRegistro($this->tabla,$valoresInsertar);
+    }
+
+    public function eliminar($condicionalesDelete){
+        return $this->eliminarRegistro($this->tabla,$condicionalesDelete);
     }
 
 }
