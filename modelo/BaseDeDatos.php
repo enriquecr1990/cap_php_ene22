@@ -33,12 +33,18 @@ class BaseDeDatos
             if ($this->mysqli->connect_errno) {
                 echo "Error en la conexion de BD " . $this->mysqli->connect_error;
             }
+            $this->mysqli->set_charset('utf8');
             $this->errors = array();
         } catch (Exception $ex) {
             //mostrar mensaje de error de constructor de BaseDeDatos
             echo 'Error en el constructor de BaseDeDatos';
             die;
         }
+    }
+
+    function __destruct()
+    {
+        $this->mysqli->close();
     }
 
 //    public function consultaRegistros($querySQL)
@@ -64,7 +70,7 @@ class BaseDeDatos
         $array_registros = array();
         while ($registro = $consultaSql->fetch_assoc()){
             foreach ($registro as $columna => $valor){
-                $array_registros[$indexRegistro][$columna] = utf8_encode($valor);
+                $array_registros[$indexRegistro][$columna] = $valor;
             }
             $indexRegistro++;
         }
@@ -77,7 +83,7 @@ class BaseDeDatos
         $array_registros = array();
         while ($registro = $consultaSql->fetch_assoc()){
             foreach ($registro as $columna => $valor){
-                $array_registros[$indexRegistro][$columna] = utf8_encode($valor);
+                $array_registros[$indexRegistro][$columna] = $valor;
             }
             $indexRegistro++;
         }
@@ -164,7 +170,7 @@ class BaseDeDatos
         $index = 1;
         $max = sizeof($valoresUpdate);
         foreach ($valoresUpdate as $columna => $valor) {
-            $valor = utf8_decode($valor);
+            //$valor = utf8_decode($valor);
             if ($index < $max) {
                 $sets .= " $columna = '$valor',";
             } else {
